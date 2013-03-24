@@ -1,0 +1,158 @@
+﻿h1
+{
+	font-size:x-large;
+}
+
+h2
+{
+	font-size:large;
+}
+
+body
+{
+    font: normal 12px/110% sans-serif, Verdana, Lucida Grande, Century Gothic;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -10%;
+  margin-left: -25%;
+}
+.requiredFieldValidator
+{
+    color:Red;
+}
+
+table
+{
+    border-spacing:2px;
+    border-collapse:separate;    
+    border-color:gray;
+}
+tbody
+{
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr 
+{
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+td
+{
+    display:table-cell;
+}
+
+td.tdLeft
+{
+    width:150px;
+    text-align:right;
+    border-bottom: 1px dashed #dddddd;
+}
+
+td.tdRight
+{
+    text-align:left;
+    border-bottom: 1px dashed #dddddd;
+}
+
+table.data
+{
+    display:table;
+    width: 100%;
+    background-color: #eee;
+    border:0 solid #ccc;
+}
+
+#page-wrap
+{
+    width: 960px;
+    margin: 0 auto;
+}
+
+#container
+{
+width: 98%;
+margin: 10px auto;
+color: #333;
+border: 1px solid gray;
+background-color: #B0C4DE;
+line-height: 130%;
+
+}
+
+#top1
+{
+width: 100%;
+background-color:#B0C4DE;
+/*border-bottom: 1px solid gray;*/
+padding-top: .1em;
+height:60px;
+display:block;
+}
+
+#top2
+{
+padding-top:-10px;
+width: 100%;
+background-color:#B0C4DE;
+text-align:left;
+/*border-top: 1px solid black;*/
+/*border-bottom: 1px solid black;*/
+display:block;
+}
+
+#top1Left
+{
+    float:left;
+    width:400px;
+    display:inline;
+    padding: .5em;
+}
+
+#top1Right
+{
+    float:right;
+    width:200px;
+    text-align: right;
+    display:inline;
+    padding-right:1em;
+    padding-top:1.5em;
+}
+
+
+#top h1
+{
+padding: 0;
+margin: 0;
+}
+
+#leftnav
+{
+float: left;
+width: 160px;
+margin: 0;
+padding: 1em;
+background-color:#B0C4DE;
+}
+
+#content
+{
+/*margin:5px;*/
+/*border-left: 1px solid gray;*/
+padding: 1em;
+/*max-width: 80em;*/
+background-color:#fff;
+min-height:500px;
+border-color:#B0C4DE;
+border-left: 1px solid #B0C4DE;
+border-right: 1px solid #B0C4DE;
+border-bottom:1px solid #B0C4DE;
+}
