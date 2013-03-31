@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using PMT.DataAccessProvider;
 
 namespace PMT
 {
@@ -16,10 +17,9 @@ namespace PMT
 
             if (Session["LoggedInUser"] != null)
              {
-                 string userName = Session["LoggedInUser"].ToString();
-                 lblSessionUser.Text = "Welcome " + userName + " (Developer).";
+                 Employee employee = (Employee)Session["LoggedInUser"];
+                 lblSessionUser.Text = "Welcome " + employee.FirstName + " " + employee.LastName + " (" + employee.Title + ").";
              }
-
         }
 
         protected void mnuPMT_MenuItemClick(object sender, MenuEventArgs e)

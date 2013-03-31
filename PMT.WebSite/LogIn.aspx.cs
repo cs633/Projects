@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using PMT.DataAccessProvider;
+using System.Drawing;
 
 namespace PMT
 {
@@ -36,52 +38,32 @@ namespace PMT
         /// <param name="args"></param>
         public void LoginValidation(Object source, ServerValidateEventArgs args)
         {
-            //// 1. Verify the Application
-            //ApplicationDto appDto = Repository.GetApplicationByName(ConfigurationManager.AppSettings["ApplicationName"]);
-            //if (appDto != null)
-            //    Session.Add("ApplicationDto", appDto);
-            //else
-            //{
-            //    ShowValidationError("Unknown Application.", args);
-            //    return;
-            //}
+            using (PMTDataContext dataContext = new PMTDataContext())
+            {
+                IQueryable<Employee> employees = from e in dataContext.Employees
+                               where e.UserName == txtUserName.Text.Trim()
+                               && e.Password == txtPassword.Text.Trim()
+                               select e;
 
-            //// 2. Authenticate the User
-            //UserDto user = Repository.AuthenticateUser(TextBoxUsername.Text, TextBoxPassword.Text);
-            //if (String.IsNullOrEmpty(user.UserName))
-            //{
-            //    ShowValidationError("User Authentication failed.", args);
-            //    return;
-            //}
+                if (employees.Count() <= 0)
+                {
+                    ShowValidationError("User authentication failed.", args);
+                    return;
+                }
 
-            //// 3. Authorize the User                   
-            //if (user.IsSuperUser)
-            //{
-            //    // Authorized automatically               
-            //}
-            //else
-            //{
-            //    // Get the access information for the User to the Application              
-            //    user.ControlAccess = Repository.GetUserAccessInfoDtoByUser(user.UserGuid, appDto.ApplicationGuid);
-            //    if (user.ControlAccess == null || user.ControlAccess.Where(a => a.AllowAccess == true).ToList().Count == 0)
-            //    {
-            //        ShowValidationError("This user does not have access to any of the pages.", args);
-            //        return;
-            //    }
-            //}
+                if (employees.Count() > 1)
+                {
+                    ShowValidationError("Ambiguous user information found.", args);
+                    return;
+                }
 
-            ////Set the User properties
-            //user.Role = Repository.GetUserRoleStudioDtoByUser(user.UserGuid);
-            //user.UserStudios = userStudios;
-            //if (userStudios.Count == 1)
-            //{
-            //    user.LoggedInStudio = userStudios[0];
-            //    Session.Add("Studio", user.LoggedInStudio);
-            //}
+                Employee employee = employees.FirstOrDefault();
 
-            //Add the user object into the session
-            Session.Add("LoggedInUser", txtUserName.Text);
+                //Add the user object into the session
+                Session.Add("LoggedInUser", employee);
 
+            }
+            
             args.IsValid = true;
         }
 
@@ -111,6 +93,7 @@ namespace PMT
             args.IsValid = false;
             loginValidator.Text = msg;
             loginValidator.Visible = true;
+            loginValidator.ForeColor = Color.Red;
         }
 
         /// <summary>

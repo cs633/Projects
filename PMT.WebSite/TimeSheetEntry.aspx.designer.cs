@@ -13,13 +13,22 @@ namespace PMT {
     public partial class TimeSheetEntry {
         
         /// <summary>
-        /// lblEmployeeId control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmployeeId;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        
+        /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
         /// txtDate control.
@@ -49,13 +58,13 @@ namespace PMT {
         protected global::System.Web.UI.WebControls.DropDownList ddlProjects;
         
         /// <summary>
-        /// ddlDepartment control.
+        /// ddlWorkCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDepartment;
+        protected global::System.Web.UI.WebControls.DropDownList ddlWorkCategory;
         
         /// <summary>
         /// txtBillingHrs control.

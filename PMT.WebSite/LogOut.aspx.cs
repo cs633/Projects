@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using PMT.DataAccessProvider;
 
 namespace PMT
 {
@@ -13,7 +14,10 @@ namespace PMT
         {
             base.OnInit(e);
             if (Session["LoggedInUser"] != null)
-                lblLogout.Text = "Logging out the user " + Session["LoggedInUser"].ToString() + "...";
+            {
+                Employee employee = (Employee)Session["LoggedInUser"];
+                lblLogout.Text = "Logging out the user " + employee.FirstName + " "  + employee.LastName + "...";
+            }
 
             Session.Clear();
 

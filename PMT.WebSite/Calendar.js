@@ -140,6 +140,7 @@ function CalendarControl() {
 
       var dateString = month+"-"+day+"-"+year;
       dateField.value = dateString;
+      document.getElementById(dateField).focus();
       hide();
     }
     return;

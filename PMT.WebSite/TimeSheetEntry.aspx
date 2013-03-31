@@ -2,40 +2,33 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:ScriptManager runat="server" ID="ScriptManager1"/> 
+<asp:UpdatePanel runat="server" ID="UpdatePanel1">
+  <ContentTemplate>
+
     <h2>
         Please input your time sheet information.
     </h2>    
     <table class="data" cellpadding="2">
         <tbody>
         <tr>
-            <td class="tdLeft">Employee ID:</td>
-            <td class="tdRight"><asp:Label ID="lblEmployeeId" runat="server">000172279</asp:Label></td>
-        </tr>
-        <tr>
-            <td class="tdLeft">Date:</td>
+            <td class="tdLeft">Date (MM/dd/yyyy):</td>
             <td class="tdRight">
-                <asp:TextBox runat="server" ID="txtDate" ClientIDMode="Static" Width="120px"></asp:TextBox>&nbsp;
-                <a style="display:inline; position:absolute" onclick="showCalendarControl(txtDate)" href="#"><img alt="calendar" src=calendar.gif style="width: 34px; height: 23px" border=0 /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <asp:RegularExpressionValidator runat="server" ID="revDate" ValidationExpression="(((0[1-9]|[12][0-9]|3[01])([-./])(0[13578]|10|12)([-./])(\d{4}))|(([0][1-9]|[12][0-9]|30)([-./])(0[469]|11)([-./])(\d{4}))|((0[1-9]|1[0-9]|2[0-8])([-./])(02)([-./])(\d{4}))|((29)(\.|-|\/)(02)([-./])([02468][048]00))|((29)([-./])(02)([-./])([13579][26]00))|((29)([-./])(02)([-./])([0-9][0-9][0][48]))|((29)([-./])(02)([-./])([0-9][0-9][2468][048]))|((29)([-./])(02)([-./])([0-9][0-9][13579][26])))" ControlToValidate="txtDate" ErrorMessage="Enter date with valid format (MM-dd-yyyy)" ForeColor="Red" Display="Dynamic" />
+                <asp:TextBox runat="server" ID="txtDate" ClientIDMode="Static" Width="120px" AutoPostBack="true" OnTextChanged="txtDate_TextChanged"/>&nbsp;
+                <%--<a style="display:inline; position:absolute" onclick="showCalendarControl(txtDate)" href="#"><img alt="calendar" src=calendar.gif style="width: 34px; height: 23px" border=0 /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                <asp:RegularExpressionValidator runat="server" ID="revDate" ValidationExpression="/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/" ControlToValidate="txtDate" ErrorMessage="Enter date with valid format (MM/dd/yyyy)" ForeColor="Red" Display="Dynamic" />
             </td>
         </tr>
         <tr>
             <td class="tdLeft">Project:</td>
             <td class="tdRight">
-                <asp:DropDownList runat="server" ID="ddlProjects" ClientIDMode="Static">
-                    <asp:ListItem Text="Rewards Zone" Selected="True"/>
-                    <asp:ListItem Text="Gas Buddy"/>
-                    <asp:ListItem Text="Google Mashup"/>
-                </asp:DropDownList>
+                <asp:DropDownList runat="server" ID="ddlProjects" ClientIDMode="Static" AutoPostBack="true" OnSelectedIndexChanged="ddlProjects_SelectedIndexChanged"/>
             </td>
         </tr>
         <tr>
-            <td class="tdLeft">Department:</td>
+            <td class="tdLeft">Work Category:</td>
             <td class="tdRight">
-                <asp:DropDownList runat="server" ID="ddlDepartment" ClientIDMode="Static">
-                    <asp:ListItem Text="Engineering" Selected="True"/>
-                    <asp:ListItem Text="Operation"/>
-                </asp:DropDownList>
+                <asp:DropDownList runat="server" ID="ddlWorkCategory" ClientIDMode="Static"/>
             </td>
         </tr>
         <tr>
@@ -117,4 +110,7 @@
         </tr>
         </tbody>
     </table>
+
+  </ContentTemplate>
+</asp:UpdatePanel>
 </asp:Content>
