@@ -15,6 +15,8 @@ namespace PMT
         {
             base.OnLoad(e);
 
+            LabelMessage.Visible = false;
+
             if (Session["LoggedInUser"] == null)
                 Response.Redirect("login.aspx", true);
         }
