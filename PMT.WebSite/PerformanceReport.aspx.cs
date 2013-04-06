@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Drawing;
+using PMT.DataAccessProvider;
 
 namespace PMT
 {
@@ -45,9 +46,21 @@ namespace PMT
 
 
                 int noOfDays = Weekdays(startDate, finishDate);
+                int noOfWorkingHrs = (noOfDays * 8);
                 lblNumberOfDays.Text = noOfDays.ToString();
-                lblNumberOfWorkingHrs.Text = (noOfDays * 8).ToString();
+                lblNumberOfWorkingHrs.Text = noOfWorkingHrs.ToString();
                 lblPerformanceReportHeaderText.InnerText = "Performance Report for the date range between " + txtStartDate.Text + " and " + txtFinishDate.Text;
+
+                System.Globalization.CultureInfo culInfo = new System.Globalization.CultureInfo("en-US");
+                using (PMTDataContext dataContext = new PMTDataContext())
+                {
+                    List<GetPerformanceReport_Result> performanceReportResult = dataContext.GetPerformanceReport(startDate, finishDate, noOfWorkingHrs).ToList();
+                    grdPerformanceReport.DataSource = performanceReportResult;
+                    grdPerformanceReport.DataBind();
+                }
+                
+
+
 
                 pnlQuery.Visible = false;
                 pnlResult.Visible = true;
@@ -66,6 +79,17 @@ namespace PMT
             pnlQuery.Visible = true;
             pnlResult.Visible = false;
         }
+
+        protected void grdPerformanceReport_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            //foreach (TableCell tc in e.Row.Cells)
+            //    tc.Attributes["style"] = "border-color:black";  //Set the border color to black
+
+            //if (e.Row.RowType == DataControlRowType.DataRow)
+            //{
+            //}
+        }
+
 
         private static int Weekdays(DateTime dtmStart, DateTime dtmEnd)
         {

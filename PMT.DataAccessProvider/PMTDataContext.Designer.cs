@@ -22,7 +22,9 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("pmtModel", "FK_Employee_Employee", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PMT.DataAccessProvider.Employee), "Employee1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.Employee), true)]
 [assembly: EdmRelationshipAttribute("pmtModel", "FK_EmployeeProject_Employee", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PMT.DataAccessProvider.Employee), "EmployeeProject", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.EmployeeProject), true)]
 [assembly: EdmRelationshipAttribute("pmtModel", "FK_EmployeeProject_Project", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PMT.DataAccessProvider.Project), "EmployeeProject", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.EmployeeProject), true)]
+[assembly: EdmRelationshipAttribute("pmtModel", "FK_Employee_Project_Employee", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PMT.DataAccessProvider.Employee), "Employee_Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.Employee_Project), true)]
 [assembly: EdmRelationshipAttribute("pmtModel", "FK_TimeSheet_TimeSheet", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PMT.DataAccessProvider.Employee), "TimeSheet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.TimeSheet), true)]
+[assembly: EdmRelationshipAttribute("pmtModel", "FK_Employee_Project_Project", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PMT.DataAccessProvider.Project), "Employee_Project", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.Employee_Project), true)]
 [assembly: EdmRelationshipAttribute("pmtModel", "FK_TimeSheet_Project", "Project", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(PMT.DataAccessProvider.Project), "TimeSheet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.TimeSheet), true)]
 [assembly: EdmRelationshipAttribute("pmtModel", "FK_TimeSheet_WorkCategory", "WorkCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(PMT.DataAccessProvider.WorkCategory), "TimeSheet", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(PMT.DataAccessProvider.TimeSheet), true)]
 
@@ -159,6 +161,22 @@ namespace PMT.DataAccessProvider
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Employee_Project> Employee_Project
+        {
+            get
+            {
+                if ((_Employee_Project == null))
+                {
+                    _Employee_Project = base.CreateObjectSet<Employee_Project>("Employee_Project");
+                }
+                return _Employee_Project;
+            }
+        }
+        private ObjectSet<Employee_Project> _Employee_Project;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<TimeSheet> TimeSheets
         {
             get
@@ -216,11 +234,63 @@ namespace PMT.DataAccessProvider
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the Employee_Project EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToEmployee_Project(Employee_Project employee_Project)
+        {
+            base.AddObject("Employee_Project", employee_Project);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the TimeSheets EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToTimeSheets(TimeSheet timeSheet)
         {
             base.AddObject("TimeSheets", timeSheet);
+        }
+
+        #endregion
+        #region Function Imports
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="date_start">No Metadata Documentation available.</param>
+        /// <param name="date_finish">No Metadata Documentation available.</param>
+        /// <param name="total_time">No Metadata Documentation available.</param>
+        public ObjectResult<GetPerformanceReport_Result> GetPerformanceReport(Nullable<global::System.DateTime> date_start, Nullable<global::System.DateTime> date_finish, Nullable<global::System.Int32> total_time)
+        {
+            ObjectParameter date_startParameter;
+            if (date_start.HasValue)
+            {
+                date_startParameter = new ObjectParameter("date_start", date_start);
+            }
+            else
+            {
+                date_startParameter = new ObjectParameter("date_start", typeof(global::System.DateTime));
+            }
+    
+            ObjectParameter date_finishParameter;
+            if (date_finish.HasValue)
+            {
+                date_finishParameter = new ObjectParameter("date_finish", date_finish);
+            }
+            else
+            {
+                date_finishParameter = new ObjectParameter("date_finish", typeof(global::System.DateTime));
+            }
+    
+            ObjectParameter total_timeParameter;
+            if (total_time.HasValue)
+            {
+                total_timeParameter = new ObjectParameter("total_time", total_time);
+            }
+            else
+            {
+                total_timeParameter = new ObjectParameter("total_time", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction<GetPerformanceReport_Result>("GetPerformanceReport", date_startParameter, date_finishParameter, total_timeParameter);
         }
 
         #endregion
@@ -770,6 +840,28 @@ namespace PMT.DataAccessProvider
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("pmtModel", "FK_Employee_Project_Employee", "Employee_Project")]
+        public EntityCollection<Employee_Project> Employee_Project
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee_Project>("pmtModel.FK_Employee_Project_Employee", "Employee_Project");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee_Project>("pmtModel.FK_Employee_Project_Employee", "Employee_Project", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("pmtModel", "FK_TimeSheet_TimeSheet", "TimeSheet")]
         public EntityCollection<TimeSheet> TimeSheets
         {
@@ -782,6 +874,192 @@ namespace PMT.DataAccessProvider
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TimeSheet>("pmtModel.FK_TimeSheet_TimeSheet", "TimeSheet", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="pmtModel", Name="Employee_Project")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Employee_Project : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Employee_Project object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        /// <param name="employeeID">Initial value of the EmployeeID property.</param>
+        /// <param name="projectID">Initial value of the ProjectID property.</param>
+        public static Employee_Project CreateEmployee_Project(global::System.Int32 id, global::System.Int32 employeeID, global::System.Int32 projectID)
+        {
+            Employee_Project employee_Project = new Employee_Project();
+            employee_Project.ID = id;
+            employee_Project.EmployeeID = employeeID;
+            employee_Project.ProjectID = projectID;
+            return employee_Project;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 EmployeeID
+        {
+            get
+            {
+                return _EmployeeID;
+            }
+            set
+            {
+                OnEmployeeIDChanging(value);
+                ReportPropertyChanging("EmployeeID");
+                _EmployeeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EmployeeID");
+                OnEmployeeIDChanged();
+            }
+        }
+        private global::System.Int32 _EmployeeID;
+        partial void OnEmployeeIDChanging(global::System.Int32 value);
+        partial void OnEmployeeIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProjectID
+        {
+            get
+            {
+                return _ProjectID;
+            }
+            set
+            {
+                OnProjectIDChanging(value);
+                ReportPropertyChanging("ProjectID");
+                _ProjectID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ProjectID");
+                OnProjectIDChanged();
+            }
+        }
+        private global::System.Int32 _ProjectID;
+        partial void OnProjectIDChanging(global::System.Int32 value);
+        partial void OnProjectIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("pmtModel", "FK_Employee_Project_Employee", "Employee")]
+        public Employee Employee
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("pmtModel.FK_Employee_Project_Employee", "Employee").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("pmtModel.FK_Employee_Project_Employee", "Employee").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Employee> EmployeeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("pmtModel.FK_Employee_Project_Employee", "Employee");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("pmtModel.FK_Employee_Project_Employee", "Employee", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("pmtModel", "FK_Employee_Project_Project", "Project")]
+        public Project Project
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("pmtModel.FK_Employee_Project_Project", "Project").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("pmtModel.FK_Employee_Project_Project", "Project").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Project> ProjectReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Project>("pmtModel.FK_Employee_Project_Project", "Project");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Project>("pmtModel.FK_Employee_Project_Project", "Project", value);
                 }
             }
         }
@@ -1108,6 +1386,28 @@ namespace PMT.DataAccessProvider
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("pmtModel", "FK_Employee_Project_Project", "Employee_Project")]
+        public EntityCollection<Employee_Project> Employee_Project
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee_Project>("pmtModel.FK_Employee_Project_Project", "Employee_Project");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee_Project>("pmtModel.FK_Employee_Project_Project", "Employee_Project", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("pmtModel", "FK_TimeSheet_Project", "TimeSheet")]
         public EntityCollection<TimeSheet> TimeSheets
         {
@@ -1141,14 +1441,14 @@ namespace PMT.DataAccessProvider
         /// Create a new TimeSheet object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="empoyeeID">Initial value of the EmpoyeeID property.</param>
+        /// <param name="employeeID">Initial value of the EmployeeID property.</param>
         /// <param name="dateTimeEntry">Initial value of the DateTimeEntry property.</param>
         /// <param name="projectID">Initial value of the ProjectID property.</param>
-        public static TimeSheet CreateTimeSheet(global::System.Int64 id, global::System.Int32 empoyeeID, global::System.DateTime dateTimeEntry, global::System.Int32 projectID)
+        public static TimeSheet CreateTimeSheet(global::System.Int64 id, global::System.Int32 employeeID, global::System.DateTime dateTimeEntry, global::System.Int32 projectID)
         {
             TimeSheet timeSheet = new TimeSheet();
             timeSheet.ID = id;
-            timeSheet.EmpoyeeID = empoyeeID;
+            timeSheet.EmployeeID = employeeID;
             timeSheet.DateTimeEntry = dateTimeEntry;
             timeSheet.ProjectID = projectID;
             return timeSheet;
@@ -1189,24 +1489,24 @@ namespace PMT.DataAccessProvider
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 EmpoyeeID
+        public global::System.Int32 EmployeeID
         {
             get
             {
-                return _EmpoyeeID;
+                return _EmployeeID;
             }
             set
             {
-                OnEmpoyeeIDChanging(value);
-                ReportPropertyChanging("EmpoyeeID");
-                _EmpoyeeID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("EmpoyeeID");
-                OnEmpoyeeIDChanged();
+                OnEmployeeIDChanging(value);
+                ReportPropertyChanging("EmployeeID");
+                _EmployeeID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EmployeeID");
+                OnEmployeeIDChanged();
             }
         }
-        private global::System.Int32 _EmpoyeeID;
-        partial void OnEmpoyeeIDChanging(global::System.Int32 value);
-        partial void OnEmpoyeeIDChanged();
+        private global::System.Int32 _EmployeeID;
+        partial void OnEmployeeIDChanging(global::System.Int32 value);
+        partial void OnEmployeeIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1695,6 +1995,374 @@ namespace PMT.DataAccessProvider
                 }
             }
         }
+
+        #endregion
+    }
+
+    #endregion
+    #region ComplexTypes
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmComplexTypeAttribute(NamespaceName="pmtModel", Name="GetPerformanceReport_Result")]
+    [DataContractAttribute(IsReference=true)]
+    [Serializable()]
+    public partial class GetPerformanceReport_Result : ComplexObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new GetPerformanceReport_Result object.
+        /// </summary>
+        /// <param name="employeeid">Initial value of the employeeid property.</param>
+        /// <param name="full_name">Initial value of the full_name property.</param>
+        public static GetPerformanceReport_Result CreateGetPerformanceReport_Result(global::System.Int32 employeeid, global::System.String full_name)
+        {
+            GetPerformanceReport_Result getPerformanceReport_Result = new GetPerformanceReport_Result();
+            getPerformanceReport_Result.employeeid = employeeid;
+            getPerformanceReport_Result.full_name = full_name;
+            return getPerformanceReport_Result;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 employeeid
+        {
+            get
+            {
+                return _employeeid;
+            }
+            set
+            {
+                OnemployeeidChanging(value);
+                ReportPropertyChanging("employeeid");
+                _employeeid = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("employeeid");
+                OnemployeeidChanged();
+            }
+        }
+        private global::System.Int32 _employeeid;
+        partial void OnemployeeidChanging(global::System.Int32 value);
+        partial void OnemployeeidChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String full_name
+        {
+            get
+            {
+                return _full_name;
+            }
+            set
+            {
+                Onfull_nameChanging(value);
+                ReportPropertyChanging("full_name");
+                _full_name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("full_name");
+                Onfull_nameChanged();
+            }
+        }
+        private global::System.String _full_name;
+        partial void Onfull_nameChanging(global::System.String value);
+        partial void Onfull_nameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> total_billable_hrs
+        {
+            get
+            {
+                return _total_billable_hrs;
+            }
+            set
+            {
+                Ontotal_billable_hrsChanging(value);
+                ReportPropertyChanging("total_billable_hrs");
+                _total_billable_hrs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("total_billable_hrs");
+                Ontotal_billable_hrsChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _total_billable_hrs;
+        partial void Ontotal_billable_hrsChanging(Nullable<global::System.Decimal> value);
+        partial void Ontotal_billable_hrsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> billable_hrs_percentage
+        {
+            get
+            {
+                return _billable_hrs_percentage;
+            }
+            set
+            {
+                Onbillable_hrs_percentageChanging(value);
+                ReportPropertyChanging("billable_hrs_percentage");
+                _billable_hrs_percentage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("billable_hrs_percentage");
+                Onbillable_hrs_percentageChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _billable_hrs_percentage;
+        partial void Onbillable_hrs_percentageChanging(Nullable<global::System.Decimal> value);
+        partial void Onbillable_hrs_percentageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> total_training_hrs
+        {
+            get
+            {
+                return _total_training_hrs;
+            }
+            set
+            {
+                Ontotal_training_hrsChanging(value);
+                ReportPropertyChanging("total_training_hrs");
+                _total_training_hrs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("total_training_hrs");
+                Ontotal_training_hrsChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _total_training_hrs;
+        partial void Ontotal_training_hrsChanging(Nullable<global::System.Decimal> value);
+        partial void Ontotal_training_hrsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> training_hrs_percentage
+        {
+            get
+            {
+                return _training_hrs_percentage;
+            }
+            set
+            {
+                Ontraining_hrs_percentageChanging(value);
+                ReportPropertyChanging("training_hrs_percentage");
+                _training_hrs_percentage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("training_hrs_percentage");
+                Ontraining_hrs_percentageChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _training_hrs_percentage;
+        partial void Ontraining_hrs_percentageChanging(Nullable<global::System.Decimal> value);
+        partial void Ontraining_hrs_percentageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> total_meeting_hrs
+        {
+            get
+            {
+                return _total_meeting_hrs;
+            }
+            set
+            {
+                Ontotal_meeting_hrsChanging(value);
+                ReportPropertyChanging("total_meeting_hrs");
+                _total_meeting_hrs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("total_meeting_hrs");
+                Ontotal_meeting_hrsChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _total_meeting_hrs;
+        partial void Ontotal_meeting_hrsChanging(Nullable<global::System.Decimal> value);
+        partial void Ontotal_meeting_hrsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> meeting_hrs_percentage
+        {
+            get
+            {
+                return _meeting_hrs_percentage;
+            }
+            set
+            {
+                Onmeeting_hrs_percentageChanging(value);
+                ReportPropertyChanging("meeting_hrs_percentage");
+                _meeting_hrs_percentage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("meeting_hrs_percentage");
+                Onmeeting_hrs_percentageChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _meeting_hrs_percentage;
+        partial void Onmeeting_hrs_percentageChanging(Nullable<global::System.Decimal> value);
+        partial void Onmeeting_hrs_percentageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> total_leave_hrs
+        {
+            get
+            {
+                return _total_leave_hrs;
+            }
+            set
+            {
+                Ontotal_leave_hrsChanging(value);
+                ReportPropertyChanging("total_leave_hrs");
+                _total_leave_hrs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("total_leave_hrs");
+                Ontotal_leave_hrsChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _total_leave_hrs;
+        partial void Ontotal_leave_hrsChanging(Nullable<global::System.Decimal> value);
+        partial void Ontotal_leave_hrsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> leave_hrs_percentage
+        {
+            get
+            {
+                return _leave_hrs_percentage;
+            }
+            set
+            {
+                Onleave_hrs_percentageChanging(value);
+                ReportPropertyChanging("leave_hrs_percentage");
+                _leave_hrs_percentage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("leave_hrs_percentage");
+                Onleave_hrs_percentageChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _leave_hrs_percentage;
+        partial void Onleave_hrs_percentageChanging(Nullable<global::System.Decimal> value);
+        partial void Onleave_hrs_percentageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> total_indirect_hrs
+        {
+            get
+            {
+                return _total_indirect_hrs;
+            }
+            set
+            {
+                Ontotal_indirect_hrsChanging(value);
+                ReportPropertyChanging("total_indirect_hrs");
+                _total_indirect_hrs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("total_indirect_hrs");
+                Ontotal_indirect_hrsChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _total_indirect_hrs;
+        partial void Ontotal_indirect_hrsChanging(Nullable<global::System.Decimal> value);
+        partial void Ontotal_indirect_hrsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> indirect_hrs_percentage
+        {
+            get
+            {
+                return _indirect_hrs_percentage;
+            }
+            set
+            {
+                Onindirect_hrs_percentageChanging(value);
+                ReportPropertyChanging("indirect_hrs_percentage");
+                _indirect_hrs_percentage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("indirect_hrs_percentage");
+                Onindirect_hrs_percentageChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _indirect_hrs_percentage;
+        partial void Onindirect_hrs_percentageChanging(Nullable<global::System.Decimal> value);
+        partial void Onindirect_hrs_percentageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> total_other_hrs
+        {
+            get
+            {
+                return _total_other_hrs;
+            }
+            set
+            {
+                Ontotal_other_hrsChanging(value);
+                ReportPropertyChanging("total_other_hrs");
+                _total_other_hrs = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("total_other_hrs");
+                Ontotal_other_hrsChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _total_other_hrs;
+        partial void Ontotal_other_hrsChanging(Nullable<global::System.Decimal> value);
+        partial void Ontotal_other_hrsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> other_hrs_percentage
+        {
+            get
+            {
+                return _other_hrs_percentage;
+            }
+            set
+            {
+                Onother_hrs_percentageChanging(value);
+                ReportPropertyChanging("other_hrs_percentage");
+                _other_hrs_percentage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("other_hrs_percentage");
+                Onother_hrs_percentageChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _other_hrs_percentage;
+        partial void Onother_hrs_percentageChanging(Nullable<global::System.Decimal> value);
+        partial void Onother_hrs_percentageChanged();
 
         #endregion
     }

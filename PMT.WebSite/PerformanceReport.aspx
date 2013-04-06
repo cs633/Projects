@@ -41,10 +41,37 @@
                         <td>
                             <asp:Button runat="server" ID="btnGoBack" ClientIDMode="Static" Text="Back" Width="95px" OnClick="btnBack_Click"/>&nbsp;&nbsp;&nbsp;&nbsp;
                             Report Variables: <asp:Label runat="server" ID="lblNumberOfDays" />&nbsp;days&nbsp;(<asp:Label runat="server" ID="lblNumberOfWorkingHrs" />&nbsp;Hrs)
-                        </td>                
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:GridView runat="server" ID="grdPerformanceReport" EmptyDataText="No performance report found." AutoGenerateColumns="false" onrowdatabound="grdPerformanceReport_RowDataBound"
+                                CellPadding="2" ForeColor="#333333"  BorderColor="Gray" BorderWidth="1px"
+                                GridLines="Both" 
+                                DataKeyNames="EmployeeId"              
+                                HeaderStyle-BackColor="Blue" HeaderStyle-ForeColor="White" 
+                                Width="100%">
+                                <Columns>
+                                    <asp:BoundField DataField="full_name" HeaderText="Employee Name"/>
+                                    <asp:BoundField DataField="total_billable_hrs" HeaderText="Billable Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="billable_hrs_percentage" HeaderText="Billable Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="total_training_hrs" HeaderText="Training Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="training_hrs_percentage" HeaderText="Training Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="total_meeting_hrs" HeaderText="Meeting Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="meeting_hrs_percentage" HeaderText="Meeting Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="total_leave_hrs" HeaderText="Leave Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="leave_hrs_percentage" HeaderText="Leave Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="total_indirect_hrs" HeaderText="Indirect Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="indirect_hrs_percentage" HeaderText="Indirect Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>                                
+                                    <asp:BoundField DataField="total_other_hrs" HeaderText="Other Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                    <asp:BoundField DataField="other_hrs_percentage" HeaderText="Other Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
+                                </Columns>
+                            </asp:GridView>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </asp:Panel>
         </ContentTemplate>
 </asp:Content>
+

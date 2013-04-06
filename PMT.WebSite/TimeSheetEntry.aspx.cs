@@ -70,7 +70,7 @@ namespace PMT
         protected void txtDate_TextChanged(object sender, EventArgs e)
         {
             PopulateHrs();
-            ScriptManager.GetCurrent(Page).SetFocus((Control)sender);
+            ScriptManager.GetCurrent(Page).SetFocus(ddlProjects);
         }
 
         private void PopulateHrs()
@@ -99,12 +99,18 @@ namespace PMT
 
                     TimeSheet timeSheet = (from t in dataContext.TimeSheets
                                             where t.DateTimeEntry == dateTimeEntry
-                                            && t.EmpoyeeID == employeeID
+                                            && t.EmployeeID == employeeID
                                             && t.ProjectID == projectID
                                             select t).SingleOrDefault();
 
                     if (timeSheet != null)
                     {
+                        if (timeSheet.WorkCategoryId.ToString() != string.Empty)
+                        {
+                            ddlWorkCategory.Items.FindByValue(ddlWorkCategory.SelectedValue).Selected = false;
+                            ddlWorkCategory.Items.FindByValue(timeSheet.WorkCategoryId.ToString()).Selected = true;
+                        }
+
                         if (timeSheet.BillableHrs != null)
                             txtBillingHrs.Text = timeSheet.BillableHrs.ToString();
                         else
@@ -162,16 +168,17 @@ namespace PMT
                 int projectID = int.Parse(ddlProjects.SelectedValue);
                 TimeSheet timeSheet = (from t in dataContext.TimeSheets
                                        where t.DateTimeEntry == dateTimeEntry
-                                       && t.EmpoyeeID == employeeID
+                                       && t.EmployeeID == employeeID
                                        && t.ProjectID == projectID
                                        select t).SingleOrDefault();
 
                 if (timeSheet == null)
                 {
                     timeSheet = new TimeSheet();
-                    timeSheet.EmpoyeeID = employeeID;
+                    timeSheet.EmployeeID = employeeID;
                     timeSheet.DateTimeEntry = dateTimeEntry;
                     timeSheet.ProjectID = projectID;
+                    timeSheet.WorkCategoryId = int.Parse(ddlWorkCategory.SelectedValue);
                     if(!string.IsNullOrEmpty(txtBillingHrs.Text))
                         timeSheet.BillableHrs = decimal.Parse(txtBillingHrs.Text);
                     if(!string.IsNullOrEmpty(txtIndirectHrs.Text))
@@ -191,6 +198,8 @@ namespace PMT
                 }
                 else
                 {
+                    timeSheet.WorkCategoryId = int.Parse(ddlWorkCategory.SelectedValue);
+
                     if (!string.IsNullOrEmpty(txtBillingHrs.Text))
                         timeSheet.BillableHrs = decimal.Parse(txtBillingHrs.Text);
                     if (!string.IsNullOrEmpty(txtIndirectHrs.Text))

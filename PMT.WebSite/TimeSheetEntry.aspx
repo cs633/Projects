@@ -16,7 +16,7 @@
             <td class="tdRight">
                 <asp:TextBox runat="server" ID="txtDate" ClientIDMode="Static" Width="120px" AutoPostBack="true" OnTextChanged="txtDate_TextChanged"/>&nbsp;
                 <%--<a style="display:inline; position:absolute" onclick="showCalendarControl(txtDate)" href="#"><img alt="calendar" src=calendar.gif style="width: 34px; height: 23px" border=0 /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
-                <asp:RegularExpressionValidator runat="server" ID="revDate" ValidationExpression="/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/" ControlToValidate="txtDate" ErrorMessage="Enter date with valid format (MM/dd/yyyy)" ForeColor="Red" Display="Dynamic" />
+                <%--<asp:RegularExpressionValidator runat="server" ID="revDate" ValidationExpression="/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/" ControlToValidate="txtDate" ErrorMessage="Enter date with valid format (MM/dd/yyyy)" ForeColor="Red" Display="Dynamic" />--%>
             </td>
         </tr>
         <tr>
