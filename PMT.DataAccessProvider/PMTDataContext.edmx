@@ -8,6 +8,7 @@
         <EntityContainer Name="pmtModelStoreContainer">
           <EntitySet Name="Department" EntityType="pmtModel.Store.Department" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Employee" EntityType="pmtModel.Store.Employee" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employee_Project" EntityType="pmtModel.Store.Employee_Project" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmployeeProject" EntityType="pmtModel.Store.EmployeeProject" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Project" EntityType="pmtModel.Store.Project" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TimeSheet" EntityType="pmtModel.Store.TimeSheet" store:Type="Tables" Schema="dbo" />
@@ -19,6 +20,14 @@
           <AssociationSet Name="FK_Employee_Employee" Association="pmtModel.Store.FK_Employee_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Project_Employee" Association="pmtModel.Store.FK_Employee_Project_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee_Project" EntitySet="Employee_Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Project_Project" Association="pmtModel.Store.FK_Employee_Project_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Employee_Project" EntitySet="Employee_Project" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeProject_Employee" Association="pmtModel.Store.FK_EmployeeProject_Employee">
             <End Role="Employee" EntitySet="Employee" />
@@ -63,7 +72,14 @@
           <Property Name="Email" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="ManagerID" Type="int" />
           <Property Name="DepartmentID" Type="int" />
-          <Property Name="NickName" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Employee_Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeProject">
           <Key>
@@ -127,6 +143,30 @@
             </Principal>
             <Dependent Role="Employee1">
               <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Project_Employee">
+          <End Role="Employee" Type="pmtModel.Store.Employee" Multiplicity="1" />
+          <End Role="Employee_Project" Type="pmtModel.Store.Employee_Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee_Project">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Project_Project">
+          <End Role="Project" Type="pmtModel.Store.Project" Multiplicity="1" />
+          <End Role="Employee_Project" Type="pmtModel.Store.Employee_Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee_Project">
+              <PropertyRef Name="ProjectID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -201,23 +241,10 @@
       <Schema Namespace="pmtModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="PMTDataContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Departments" EntityType="pmtModel.Department" />
+          <EntitySet Name="Employees" EntityType="pmtModel.Employee" />
           <EntitySet Name="EmployeeProjects" EntityType="pmtModel.EmployeeProject" />
           <EntitySet Name="Projects" EntityType="pmtModel.Project" />
           <EntitySet Name="WorkCategories" EntityType="pmtModel.WorkCategory" />
-          <AssociationSet Name="FK_EmployeeProject_Project" Association="pmtModel.FK_EmployeeProject_Project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="EmployeeProject" EntitySet="EmployeeProjects" />
-          </AssociationSet>
-          <EntitySet Name="TimeSheets" EntityType="pmtModel.TimeSheet" />
-          <AssociationSet Name="FK_TimeSheet_Project" Association="pmtModel.FK_TimeSheet_Project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="TimeSheet" EntitySet="TimeSheets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TimeSheet_WorkCategory" Association="pmtModel.FK_TimeSheet_WorkCategory">
-            <End Role="WorkCategory" EntitySet="WorkCategories" />
-            <End Role="TimeSheet" EntitySet="TimeSheets" />
-          </AssociationSet>
-          <EntitySet Name="Employees" EntityType="pmtModel.Employee" />
           <AssociationSet Name="FK_Employee_Department" Association="pmtModel.FK_Employee_Department">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
@@ -230,8 +257,30 @@
             <End Role="Employee" EntitySet="Employees" />
             <End Role="EmployeeProject" EntitySet="EmployeeProjects" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeProject_Project" Association="pmtModel.FK_EmployeeProject_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="EmployeeProject" EntitySet="EmployeeProjects" />
+          </AssociationSet>
+          <EntitySet Name="Employee_Project" EntityType="pmtModel.Employee_Project" />
+          <EntitySet Name="TimeSheets" EntityType="pmtModel.TimeSheet" />
+          <AssociationSet Name="FK_Employee_Project_Employee" Association="pmtModel.FK_Employee_Project_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employee_Project" EntitySet="Employee_Project" />
+          </AssociationSet>
           <AssociationSet Name="FK_TimeSheet_TimeSheet" Association="pmtModel.FK_TimeSheet_TimeSheet">
             <End Role="Employee" EntitySet="Employees" />
+            <End Role="TimeSheet" EntitySet="TimeSheets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Project_Project" Association="pmtModel.FK_Employee_Project_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Employee_Project" EntitySet="Employee_Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSheet_Project" Association="pmtModel.FK_TimeSheet_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="TimeSheet" EntitySet="TimeSheets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSheet_WorkCategory" Association="pmtModel.FK_TimeSheet_WorkCategory">
+            <End Role="WorkCategory" EntitySet="WorkCategories" />
             <End Role="TimeSheet" EntitySet="TimeSheets" />
           </AssociationSet>
           <FunctionImport Name="GetPerformanceReport" ReturnType="Collection(pmtModel.GetPerformanceReport_Result)">
@@ -249,6 +298,27 @@
           <Property Name="Description" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Employees" Relationship="pmtModel.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
         </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Phone" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ManagerID" Type="Int32" />
+          <Property Name="DepartmentID" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="pmtModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Employee1" Relationship="pmtModel.FK_Employee_Employee" FromRole="Employee" ToRole="Employee1" />
+          <NavigationProperty Name="Employee2" Relationship="pmtModel.FK_Employee_Employee" FromRole="Employee1" ToRole="Employee" />
+          <NavigationProperty Name="EmployeeProjects" Relationship="pmtModel.FK_EmployeeProject_Employee" FromRole="Employee" ToRole="EmployeeProject" />
+          <NavigationProperty Name="Employee_Project" Relationship="pmtModel.FK_Employee_Project_Employee" FromRole="Employee" ToRole="Employee_Project" />
+          <NavigationProperty Name="TimeSheets" Relationship="pmtModel.FK_TimeSheet_TimeSheet" FromRole="Employee" ToRole="TimeSheet" />
+          </EntityType>
         <EntityType Name="EmployeeProject">
           <Key>
             <PropertyRef Name="ID" />
@@ -256,8 +326,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="EmployeeID" Type="Int32" Nullable="false" />
           <Property Name="ProjectID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Project" Relationship="pmtModel.FK_EmployeeProject_Project" FromRole="EmployeeProject" ToRole="Project" />
           <NavigationProperty Name="Employee" Relationship="pmtModel.FK_EmployeeProject_Employee" FromRole="EmployeeProject" ToRole="Employee" />
+          <NavigationProperty Name="Project" Relationship="pmtModel.FK_EmployeeProject_Project" FromRole="EmployeeProject" ToRole="Project" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -267,6 +337,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="EmployeeProjects" Relationship="pmtModel.FK_EmployeeProject_Project" FromRole="Project" ToRole="EmployeeProject" />
+          <NavigationProperty Name="Employee_Project" Relationship="pmtModel.FK_Employee_Project_Project" FromRole="Project" ToRole="Employee_Project" />
           <NavigationProperty Name="TimeSheets" Relationship="pmtModel.FK_TimeSheet_Project" FromRole="Project" ToRole="TimeSheet" />
         </EntityType>
         <EntityType Name="WorkCategory">
@@ -278,6 +349,42 @@
           <Property Name="Description" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="TimeSheets" Relationship="pmtModel.FK_TimeSheet_WorkCategory" FromRole="WorkCategory" ToRole="TimeSheet" />
         </EntityType>
+        <Association Name="FK_Employee_Department">
+          <End Role="Department" Type="pmtModel.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="pmtModel.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Employee">
+          <End Role="Employee" Type="pmtModel.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="pmtModel.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeProject_Employee">
+          <End Role="Employee" Type="pmtModel.Employee" Multiplicity="1" />
+          <End Role="EmployeeProject" Type="pmtModel.EmployeeProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmployeeProject">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeProject_Project">
           <End Role="Project" Type="pmtModel.Project" Multiplicity="1" />
           <End Role="EmployeeProject" Type="pmtModel.EmployeeProject" Multiplicity="*" />
@@ -290,6 +397,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Employee_Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="pmtModel.FK_Employee_Project_Employee" FromRole="Employee_Project" ToRole="Employee" />
+          <NavigationProperty Name="Project" Relationship="pmtModel.FK_Employee_Project_Project" FromRole="Employee_Project" ToRole="Project" />
+        </EntityType>
         <EntityType Name="TimeSheet">
           <Key>
             <PropertyRef Name="ID" />
@@ -306,10 +423,46 @@
           <Property Type="Decimal" Name="IndirectHrs" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="OtherHrs" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="PersonalHrs" Precision="5" Scale="2" />
+          <NavigationProperty Name="Employee" Relationship="pmtModel.FK_TimeSheet_TimeSheet" FromRole="TimeSheet" ToRole="Employee" />
           <NavigationProperty Name="Project" Relationship="pmtModel.FK_TimeSheet_Project" FromRole="TimeSheet" ToRole="Project" />
           <NavigationProperty Name="WorkCategory" Relationship="pmtModel.FK_TimeSheet_WorkCategory" FromRole="TimeSheet" ToRole="WorkCategory" />
-          <NavigationProperty Name="Employee" Relationship="pmtModel.FK_TimeSheet_TimeSheet" FromRole="TimeSheet" ToRole="Employee" />
         </EntityType>
+        <Association Name="FK_Employee_Project_Employee">
+          <End Type="pmtModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="pmtModel.Employee_Project" Role="Employee_Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee_Project">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeSheet_TimeSheet">
+          <End Type="pmtModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="pmtModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TimeSheet">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Project_Project">
+          <End Type="pmtModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="pmtModel.Employee_Project" Role="Employee_Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee_Project">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TimeSheet_Project">
           <End Type="pmtModel.Project" Role="Project" Multiplicity="1" />
           <End Type="pmtModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
@@ -334,79 +487,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Phone" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ManagerID" />
-          <Property Type="Int32" Name="DepartmentID" />
-          <Property Type="String" Name="NickName" MaxLength="15" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Department" Relationship="pmtModel.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
-          <NavigationProperty Name="Employee1" Relationship="pmtModel.FK_Employee_Employee" FromRole="Employee" ToRole="Employee1" />
-          <NavigationProperty Name="Employee2" Relationship="pmtModel.FK_Employee_Employee" FromRole="Employee1" ToRole="Employee" />
-          <NavigationProperty Name="EmployeeProjects" Relationship="pmtModel.FK_EmployeeProject_Employee" FromRole="Employee" ToRole="EmployeeProject" />
-          <NavigationProperty Name="TimeSheets" Relationship="pmtModel.FK_TimeSheet_TimeSheet" FromRole="Employee" ToRole="TimeSheet" />
-        </EntityType>
-        <Association Name="FK_Employee_Department">
-          <End Type="pmtModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="pmtModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="DepartmentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Employee">
-          <End Type="pmtModel.Employee" Role="Employee" Multiplicity="0..1" />
-          <End Type="pmtModel.Employee" Role="Employee1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee1">
-              <PropertyRef Name="ManagerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeProject_Employee">
-          <End Type="pmtModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="pmtModel.EmployeeProject" Role="EmployeeProject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EmployeeProject">
-              <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TimeSheet_TimeSheet">
-          <End Type="pmtModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="pmtModel.TimeSheet" Role="TimeSheet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TimeSheet">
-              <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="GetPerformanceReport_Result">
           <Property Type="Int32" Name="employeeid" Nullable="false" />
           <Property Type="String" Name="full_name" Nullable="false" MaxLength="101" />
-          <Property Type="String" Name="short_name" Nullable="true" MaxLength="15" />
           <Property Type="Decimal" Name="total_billable_hrs" Nullable="true" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="billable_hrs_percentage" Nullable="true" Precision="38" Scale="6" />
           <Property Type="Decimal" Name="total_training_hrs" Nullable="true" Precision="38" Scale="2" />
@@ -431,6 +514,18 @@
             <ScalarProperty Name="Name" ColumnName="Name" />
             <ScalarProperty Name="Description" ColumnName="Description" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Employees"><EntityTypeMapping TypeName="pmtModel.Employee"><MappingFragment StoreEntitySet="Employee">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="UserName" ColumnName="UserName" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+            <ScalarProperty Name="LastName" ColumnName="LastName" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Phone" ColumnName="Phone" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+            <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+            <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="EmployeeProjects"><EntityTypeMapping TypeName="pmtModel.EmployeeProject"><MappingFragment StoreEntitySet="EmployeeProject">
             <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -446,6 +541,15 @@
             <ScalarProperty Name="Name" ColumnName="Name" />
             <ScalarProperty Name="Description" ColumnName="Description" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Employee_Project">
+            <EntityTypeMapping TypeName="pmtModel.Employee_Project">
+              <MappingFragment StoreEntitySet="Employee_Project">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TimeSheets">
             <EntityTypeMapping TypeName="pmtModel.TimeSheet">
               <MappingFragment StoreEntitySet="TimeSheet">
@@ -464,29 +568,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="pmtModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="NickName" ColumnName="NickName" />
-                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
-                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetPerformanceReport" FunctionName="pmtModel.Store.usr_sp_GetPerformanceReport">
             <ResultMapping>
               <ComplexTypeMapping TypeName="pmtModel.GetPerformanceReport_Result">
                 <ScalarProperty Name="employeeid" ColumnName="employeeid" />
                 <ScalarProperty Name="full_name" ColumnName="full_name" />
-                <ScalarProperty Name="short_name" ColumnName="short_name" />
                 <ScalarProperty Name="total_billable_hrs" ColumnName="total_billable_hrs" />
                 <ScalarProperty Name="billable_hrs_percentage" ColumnName="billable_hrs_percentage" />
                 <ScalarProperty Name="total_training_hrs" ColumnName="total_training_hrs" />
@@ -524,44 +610,59 @@
     <Diagrams>
       <Diagram Name="PMTDataContext">
         <EntityTypeShape EntityType="pmtModel.Department" Width="1.5" PointX="0.75" PointY="4.875" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="pmtModel.Employee" Width="1.5" PointX="3" PointY="3.75" Height="3.9033007812499996" IsExpanded="true" />
         <EntityTypeShape EntityType="pmtModel.EmployeeProject" Width="1.5" PointX="5.25" PointY="4.75" Height="1.9802864583333335" IsExpanded="true" />
         <EntityTypeShape EntityType="pmtModel.Project" Width="1.5" PointX="3" PointY="0.75" Height="1.9802864583333335" IsExpanded="true" />
         <EntityTypeShape EntityType="pmtModel.WorkCategory" Width="1.5" PointX="6" PointY="1.875" Height="1.7879850260416665" IsExpanded="true" />
-        <AssociationConnector Association="pmtModel.FK_EmployeeProject_Project" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="1.5781275000000008" />
-          <ConnectorPoint PointX="5.59375" PointY="1.5781275000000008" />
-          <ConnectorPoint PointX="5.59375" PointY="4.75" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="pmtModel.TimeSheet" Width="1.5" PointX="10.5" PointY="2.375" Height="3.9033007812499996" />
-        <AssociationConnector Association="pmtModel.FK_TimeSheet_Project" >
-          <ConnectorPoint PointX="4.5" PointY="1.1328112499999996" />
-          <ConnectorPoint PointX="11.25" PointY="1.1328112499999996" />
-          <ConnectorPoint PointX="11.25" PointY="2.375" />
-        </AssociationConnector>
-        <AssociationConnector Association="pmtModel.FK_TimeSheet_WorkCategory" >
-          <ConnectorPoint PointX="7.5" PointY="3.0189925130208333" />
-          <ConnectorPoint PointX="10.5" PointY="3.0189925130208333" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="pmtModel.Employee" Width="1.5" PointX="3" PointY="3.75" Height="4.0956022135416674" />
-        <AssociationConnector Association="pmtModel.FK_Employee_Department" >
+        <AssociationConnector Association="pmtModel.FK_Employee_Department" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="5.7689925130208337" />
           <ConnectorPoint PointX="3" PointY="5.7689925130208337" />
         </AssociationConnector>
-        <AssociationConnector Association="pmtModel.FK_Employee_Employee" >
-          <ConnectorPoint PointX="3.5319230769230767" PointY="7.8456022135416674" />
-          <ConnectorPoint PointX="3.5319230769230767" PointY="8.0956022135416674" />
-          <ConnectorPoint PointX="3.9784615384615383" PointY="8.0956022135416674" />
-          <ConnectorPoint PointX="3.9784615384615383" PointY="7.8456022135416674" />
+        <AssociationConnector Association="pmtModel.FK_Employee_Employee" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.5319230769230767" PointY="7.8456022135416656" />
+          <ConnectorPoint PointX="3.5319230769230767" PointY="8.0956022135416656" />
+          <ConnectorPoint PointX="3.9784615384615383" PointY="8.0956022135416656" />
+          <ConnectorPoint PointX="3.9784615384615383" PointY="7.8456022135416656" />
         </AssociationConnector>
-        <AssociationConnector Association="pmtModel.FK_EmployeeProject_Employee" >
-          <ConnectorPoint PointX="4.5" PointY="5.7401432291666659" />
-          <ConnectorPoint PointX="5.25" PointY="5.7401432291666659" />
+        <AssociationConnector Association="pmtModel.FK_EmployeeProject_Employee" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="5.7401432291666667" />
+          <ConnectorPoint PointX="5.25" PointY="5.7401432291666667" />
         </AssociationConnector>
-        <AssociationConnector Association="pmtModel.FK_TimeSheet_TimeSheet" >
+        <AssociationConnector Association="pmtModel.FK_EmployeeProject_Project" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="1.28125" />
+          <ConnectorPoint PointX="5.59375" PointY="1.28125" />
+          <ConnectorPoint PointX="5.59375" PointY="4.75" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="pmtModel.Employee_Project" Width="1.5" PointX="8.25" PointY="3.25" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="pmtModel.TimeSheet" Width="1.5" PointX="10.5" PointY="2.375" Height="3.9033007812499996" />
+        <AssociationConnector Association="pmtModel.FK_Employee_Project_Employee" >
           <ConnectorPoint PointX="4.5" PointY="4.21875" />
           <ConnectorPoint PointX="5.510416666666667" PointY="4.2187499999999991" />
           <ConnectorPoint PointX="5.677083333333333" PointY="4.21875" />
-          <ConnectorPoint PointX="10.5" PointY="4.21875" />
+          <ConnectorPoint PointX="8.25" PointY="4.21875" />
+        </AssociationConnector>
+        <AssociationConnector Association="pmtModel.FK_TimeSheet_TimeSheet" >
+          <ConnectorPoint PointX="4.5" PointY="7.3191943359375" />
+          <ConnectorPoint PointX="11.25" PointY="7.3191943359375" />
+          <ConnectorPoint PointX="11.25" PointY="6.27830078125" />
+        </AssociationConnector>
+        <AssociationConnector Association="pmtModel.FK_Employee_Project_Project" >
+          <ConnectorPoint PointX="4.5" PointY="1.5781275000000008" />
+          <ConnectorPoint PointX="5.510416666666667" PointY="1.5781275000000001" />
+          <ConnectorPoint PointX="5.677083333333333" PointY="1.5781275000000008" />
+          <ConnectorPoint PointX="9" PointY="1.5781275000000008" />
+          <ConnectorPoint PointX="9" PointY="3.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="pmtModel.FK_TimeSheet_Project" >
+          <ConnectorPoint PointX="4.5" PointY="0.98437249999999921" />
+          <ConnectorPoint PointX="11.25" PointY="0.98437249999999921" />
+          <ConnectorPoint PointX="11.25" PointY="2.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="pmtModel.FK_TimeSheet_WorkCategory" >
+          <ConnectorPoint PointX="7.5" PointY="2.78125" />
+          <ConnectorPoint PointX="8.9166666666666661" PointY="2.7812499999999996" />
+          <ConnectorPoint PointX="9.0833333333333339" PointY="2.78125" />
+          <ConnectorPoint PointX="10.5" PointY="2.78125" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>
