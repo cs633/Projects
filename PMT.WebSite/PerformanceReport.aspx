@@ -1,4 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PerformanceReport.aspx.cs" Inherits="PMT.PerformanceReport" %>
+
+<%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -14,9 +17,11 @@
                     <tr>
                         <td>
                             Start:&nbsp;&nbsp;
-                            <asp:TextBox runat="server" ID="txtStartDate" ClientIDMode="Static" Width="120px" AutoPostBack="true"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <asp:TextBox runat="server" ID="txtStartDate" ClientIDMode="Static" Width="120px"/>&nbsp;
+                            <a style="display:inline; position:absolute" onclick="showCalendarControl(txtStartDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             Finish:&nbsp;&nbsp;
-                            <asp:TextBox runat="server" ID="txtFinishDate" ClientIDMode="Static" Width="120px" AutoPostBack="true"/>&nbsp;&nbsp;
+                            <asp:TextBox runat="server" ID="txtFinishDate" ClientIDMode="Static" Width="120px"/>&nbsp;
+                            <a style="display:inline; position:absolute" onclick="showCalendarControl(txtFinishDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <asp:Button runat="server" ID="btnGo" Width="95px" Text="Go" OnClick="btnGo_Click" UseSubmitBehavior="true" />&nbsp;&nbsp;&nbsp;&nbsp;
                             <%--<asp:RequiredFieldValidator ControlToValidate="txtStartDate" runat="server" ID="rfvStartDate" Display="Dynamic" ErrorMessage="Start Date cannot be empty or null" ForeColor="Red" />--%>
                             <%--<asp:RequiredFieldValidator ControlToValidate="txtFinishDate" runat="server" ID="rfvFinishDate" Display="Dynamic" ErrorMessage="Finish Date cannot be empty or null" ForeColor="Red" />--%>
@@ -66,11 +71,42 @@
                                     <asp:BoundField DataField="total_other_hrs" HeaderText="Other Hrs" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
                                     <asp:BoundField DataField="other_hrs_percentage" HeaderText="Other Hrs %" DataFormatString="{0:F2}" ItemStyle-HorizontalAlign="Right"/>
                                 </Columns>
+
                             </asp:GridView>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <br />
+
+                <asp:Chart ID="Chart1" runat="server" Palette="BrightPastel" BackColor="#D3DFF0" ImageType="Png" ImageLocation="~/TempImages/ChartPic_#SEQ(300,3)" Width="930px" Height="400px" BorderlineDashStyle="Solid" BackGradientStyle="TopBottom" BorderWidth="2" BorderColor="26, 59, 105">
+					<titles>
+						<asp:Title ShadowColor="32, 0, 0, 0" Font="Trebuchet MS, 14.25pt, style=Bold" ShadowOffset="3" Text="Performance Report Chart." ForeColor="26, 59, 105"></asp:Title>
+					</titles>
+					<legends>
+						<asp:Legend Enabled="true" IsTextAutoFit="False" Name="Default" BackColor="Transparent" Font="Trebuchet MS, 8.25pt, style=Bold"></asp:Legend>
+					</legends>
+					<borderskin SkinStyle="Emboss"></borderskin>
+                
+                    <Series>
+                        <asp:Series Name="Billable Hrs %" ChartType="StackedColumn" ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder" IsValueShownAsLabel="true" >
+                        </asp:Series>
+                        <asp:Series Name="Training Hrs %" ChartType="StackedColumn" ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder" IsValueShownAsLabel="true" >
+                        </asp:Series>
+                        <asp:Series Name="Meeting Hrs %" ChartType="StackedColumn" ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder" IsValueShownAsLabel="true" >
+                        </asp:Series>
+                        <asp:Series Name="Leave Hrs %" ChartType="StackedColumn" ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder" IsValueShownAsLabel="true" >
+                        </asp:Series>
+                        <asp:Series Name="Indirect Hrs %" ChartType="StackedColumn" ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder" IsValueShownAsLabel="true" >
+                        </asp:Series>
+                        <asp:Series Name="Other Hrs %" ChartType="StackedColumn" ChartArea="ChartArea1" CustomProperties="DrawingStyle=Cylinder" IsValueShownAsLabel="true" >
+                        </asp:Series>
+                    </Series>
+                    <ChartAreas>
+                        <asp:ChartArea Name="ChartArea1" BorderColor="64, 64, 64, 64" BackSecondaryColor="Transparent" BackColor="64, 165, 191, 228" ShadowColor="Transparent" BackGradientStyle="TopBottom">
+                        </asp:ChartArea>
+                    </ChartAreas>
+                </asp:Chart>
             </asp:Panel>
         </ContentTemplate>
 </asp:Content>
