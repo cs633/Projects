@@ -47,9 +47,9 @@
             </asp:Menu>
         </div>
         <div id="content">
-            <asp:Label runat="server" ID="lblMessage" />
+            <asp:Label runat="server" ID="lblMsg" Visible="true"/>        
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-        
+                
             </asp:ContentPlaceHolder>
         </div>
     </div>

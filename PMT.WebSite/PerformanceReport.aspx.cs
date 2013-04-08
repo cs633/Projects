@@ -124,9 +124,10 @@ namespace PMT
             }
             catch (Exception ex)
             {
-                LabelMessage.Text = ex.Message;
-                LabelMessage.ForeColor = Color.Red;
-                LabelMessage.Visible = true;
+                ShowErrorMessage(ex.Message);
+                //LabelMessage.Text = ex.Message;
+                //LabelMessage.ForeColor = Color.Red;
+                //LabelMessage.Visible = true;
             }
         }
 

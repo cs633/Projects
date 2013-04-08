@@ -35,13 +35,11 @@ namespace PMT
 
                 btnReset_Click(sender, e);
 
-                LabelMessage.Text = "Timesheet data save successfully.";
-                LabelMessage.ForeColor = Color.DarkGreen;
+                ShowSuccessMessage("Timesheet data save successfully.");
             }
             catch (Exception ex)
             {
-                LabelMessage.Text = ex.Message;
-                LabelMessage.ForeColor = Color.Red;
+                ShowErrorMessage(ex.Message);
             }
         }
 
@@ -85,8 +83,7 @@ namespace PMT
             }
             catch 
             {
-                LabelMessage.Text = "Enter date with valid format (MM/dd/yyyy)";
-                LabelMessage.ForeColor = Color.Red;
+                ShowErrorMessage("Enter date with valid format (MM/dd/yyyy)");
                 return;
             }
             
@@ -150,8 +147,7 @@ namespace PMT
             }
             catch (Exception ex)
             {
-                LabelMessage.Text = ex.Message;
-                LabelMessage.ForeColor = Color.Red;
+                ShowErrorMessage(ex.Message);
             }
         }
 
@@ -248,5 +244,28 @@ namespace PMT
             }
         }
 
+        /// <summary>
+        /// Show Login Validation Errors
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="args"></param>
+        protected override void ShowErrorMessage(String msg)
+        {
+            lblMessage.Text = msg;
+            lblMessage.Visible = true;
+            lblMessage.ForeColor = Color.Red;
+        }
+
+        /// <summary>
+        /// Show Success Messages
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="args"></param>
+        protected override void ShowSuccessMessage(String msg)
+        {
+            lblMessage.Text = msg;
+            lblMessage.Visible = true;
+            lblMessage.ForeColor = Color.Green;
+        }
     }
 }

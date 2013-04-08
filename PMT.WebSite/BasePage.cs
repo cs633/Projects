@@ -22,12 +22,12 @@ namespace PMT
         }
 
         private Label _LabelMessage;
-        protected Label LabelMessage
+        protected virtual Label LabelMessage
         {
             get
             {
                 if (_LabelMessage == null)
-                    _LabelMessage = (Label)this.Master.FindControl("lblMessage");
+                    _LabelMessage = (Label)this.Master.FindControl("lblMsg");
                 return _LabelMessage;
             }
         }
@@ -48,7 +48,7 @@ namespace PMT
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="args"></param>
-        protected void ShowErrorMessage(String msg)
+        protected virtual void ShowErrorMessage(String msg)
         {
             this.LabelMessage.Text = msg;
             this.LabelMessage.Visible = true;
@@ -60,7 +60,7 @@ namespace PMT
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="args"></param>
-        protected void ShowSuccessMessage(String msg)
+        protected virtual void ShowSuccessMessage(String msg)
         {
             this.LabelMessage.Text = msg;
             this.LabelMessage.Visible = true;

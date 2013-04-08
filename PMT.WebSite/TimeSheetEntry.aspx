@@ -5,12 +5,16 @@
 <asp:ScriptManager runat="server" ID="ScriptManager1"/> 
 <asp:UpdatePanel runat="server" ID="UpdatePanel1">
   <ContentTemplate>
-
-    <h2>
-        Please input your time sheet information.
-    </h2>    
-    <table class="data" cellpadding="2">
+       <asp:Label runat="server" ClientIDMode="Static" ID="lblMessage"/>
+       <table class="data" cellpadding="2">
         <tbody>
+        <tr>
+            <td colspan="2">
+                <h2>
+                    Please input your time sheet information.
+                </h2>                
+            </td>
+        </tr>
         <tr>
             <td class="tdLeft">Date :</td>
             <td class="tdRight">
@@ -110,7 +114,6 @@
         </tr>
         </tbody>
     </table>
-
   </ContentTemplate>
 </asp:UpdatePanel>
 </asp:Content>
