@@ -231,8 +231,9 @@ namespace PMT.DataAccessProvider
         /// </summary>
         /// <param name="date_start">No Metadata Documentation available.</param>
         /// <param name="date_finish">No Metadata Documentation available.</param>
+        /// <param name="project_id">No Metadata Documentation available.</param>
         /// <param name="total_time">No Metadata Documentation available.</param>
-        public ObjectResult<GetPerformanceReport_Result> GetPerformanceReport(Nullable<global::System.DateTime> date_start, Nullable<global::System.DateTime> date_finish, Nullable<global::System.Int32> total_time)
+        public ObjectResult<GetPerformanceReport_Result> GetPerformanceReport(Nullable<global::System.DateTime> date_start, Nullable<global::System.DateTime> date_finish, Nullable<global::System.Int32> project_id, Nullable<global::System.Int32> total_time)
         {
             ObjectParameter date_startParameter;
             if (date_start.HasValue)
@@ -254,6 +255,16 @@ namespace PMT.DataAccessProvider
                 date_finishParameter = new ObjectParameter("date_finish", typeof(global::System.DateTime));
             }
     
+            ObjectParameter project_idParameter;
+            if (project_id.HasValue)
+            {
+                project_idParameter = new ObjectParameter("project_id", project_id);
+            }
+            else
+            {
+                project_idParameter = new ObjectParameter("project_id", typeof(global::System.Int32));
+            }
+    
             ObjectParameter total_timeParameter;
             if (total_time.HasValue)
             {
@@ -264,7 +275,7 @@ namespace PMT.DataAccessProvider
                 total_timeParameter = new ObjectParameter("total_time", typeof(global::System.Int32));
             }
     
-            return base.ExecuteFunction<GetPerformanceReport_Result>("GetPerformanceReport", date_startParameter, date_finishParameter, total_timeParameter);
+            return base.ExecuteFunction<GetPerformanceReport_Result>("GetPerformanceReport", date_startParameter, date_finishParameter, project_idParameter, total_timeParameter);
         }
 
         #endregion

@@ -19,6 +19,8 @@ namespace PMT
 
             if (!IsPostBack)
             {
+                FillProjects();
+
                 pnlQuery.Visible = true;
                 pnlResult.Visible = false;                
             }
@@ -34,35 +36,46 @@ namespace PMT
                 bool result;
                 DateTime startDate;
                 DateTime finishDate;
+                int projectId = 0;
+
+                if (ddlProjects.SelectedIndex != 0)
+                    projectId = int.Parse(ddlProjects.SelectedValue);
+
                 result = DateTime.TryParse(txtStartDate.Text, out startDate);
                 if (!result)
                     throw new Exception("Enter a valid start date.");
                 
                 result = DateTime.TryParse(txtFinishDate.Text, out finishDate);
-                if(!result)
+                if (!result)
                     throw new Exception("Enter a valid end date.");
 
-                result = startDate < finishDate;
-                if (!result)
-                    throw new Exception("Start date must be earlier than finish date");
-
+                if (!string.IsNullOrEmpty(txtStartDate.Text) || !string.IsNullOrEmpty(txtFinishDate.Text))
+                {
+                    result = startDate < finishDate;
+                    if (!result)
+                        throw new Exception("Start date must be earlier than finish date");
+                }
 
                 int noOfDays = Weekdays(startDate, finishDate);
                 int noOfWorkingHrs = (noOfDays * 8);
                 lblNumberOfDays.Text = noOfDays.ToString();
                 lblNumberOfWorkingHrs.Text = noOfWorkingHrs.ToString();
-                lblPerformanceReportHeaderText.InnerText = "Performance Report for the date range between " + txtStartDate.Text + " and " + txtFinishDate.Text;
+                if(ddlProjects.SelectedIndex == 0)
+                    lblPerformanceReportHeaderText.InnerText = "Performance Report for the date range between " + txtStartDate.Text + " and " + txtFinishDate.Text;
+                else
+                    lblPerformanceReportHeaderText.InnerText = "Performance Report for the project '" + ddlProjects.SelectedItem.Text + "' and date range between " + txtStartDate.Text + " and " + txtFinishDate.Text;
 
                 System.Globalization.CultureInfo culInfo = new System.Globalization.CultureInfo("en-US");
                 using (PMTDataContext dataContext = new PMTDataContext())
                 {
-                    finishDate = finishDate.AddMinutes(1439);
-                    List<GetPerformanceReport_Result> performanceReportResultList = dataContext.GetPerformanceReport(startDate, finishDate, noOfWorkingHrs).ToList();
-                    //Bind the chart first
-                    BindChart(performanceReportResultList);
+                    //finishDate = finishDate.AddMinutes(1439);
+                    List<GetPerformanceReport_Result> performanceReportResultList = dataContext.GetPerformanceReport(startDate, finishDate, projectId, noOfWorkingHrs).ToList();
 
                     if (performanceReportResultList.Count > 0)
                     {
+                        //Bind the chart first
+                        BindChart(performanceReportResultList);
+
                         double totalBillableHrs = 0;
                         double totalBillableHrsPct = 0;
                         double totalTrainingHrs = 0;
@@ -114,13 +127,9 @@ namespace PMT
                     grdPerformanceReport.DataBind();
 
                 }
-                
-
-
-
+               
                 pnlQuery.Visible = false;
                 pnlResult.Visible = true;
-
             }
             catch (Exception ex)
             {
@@ -205,6 +214,26 @@ namespace PMT
                 return (((tSpan.Days / 7) * 5) + Math.Max((Math.Min((dowEnd + 1), 6) - dowStart), 0));
             }
             return (((tSpan.Days / 7) * 5) + Math.Min((dowEnd + 6) - Math.Min(dowStart, 6), 5));
+        }
+
+        private void FillProjects()
+        {
+            using (PMTDataContext dataContext = new PMTDataContext())
+            {
+                Dictionary<string, string> projects = (from e in dataContext.Employees
+                                                       join ep in dataContext.EmployeeProjects on e.ID equals ep.EmployeeID
+                                                       join p in dataContext.Projects on ep.ProjectID equals p.ID
+                                                       where e.ID == LoggedInUser.ID
+                                                       select new { p.ID, p.Name }).ToDictionary(p => p.ID.ToString(), p => p.Name);
+
+
+                ddlProjects.DataSource = projects;
+                ddlProjects.DataTextField = "Value";
+                ddlProjects.DataValueField = "Key";
+                ddlProjects.DataBind();
+
+                ddlProjects.Items.Insert(0, "---Select All---");
+            }
         }
     }
 }

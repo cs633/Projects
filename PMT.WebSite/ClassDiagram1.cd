@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="PMT.Login">
-    <Position X="11.25" Y="0.5" Width="2.25" />
+    <Position X="6.5" Y="6.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AIgAAAAUQAACAAAAAAAAAEACIAAASQQABgAACABAAEA=</HashCode>
       <FileName>LogIn.aspx.cs</FileName>
@@ -25,7 +25,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PMT.LogOut">
-    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Position X="2.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAQIAAAAAAAAAAA=</HashCode>
       <FileName>LogOut.aspx.cs</FileName>
@@ -34,14 +34,14 @@
   <Class Name="PMT.PerformanceReport">
     <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <HashCode>BAEAEAAASIAAhAgABAAIAIACBAAAIAAACgAAIAAAAAA=</HashCode>
       <FileName>PerformanceReport.aspx.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PMT.Site">
-    <Position X="9.25" Y="0.5" Width="1.5" />
+    <Position X="4.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAIAgAAAAAAAAAAAAAADIIAAAAAAAABAAAACAAA=</HashCode>
+      <HashCode>AAAAQAIAgAAAAAAAAAAAAAADIAAAAAABAABAAAACAAA=</HashCode>
       <FileName>Site.Master.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -51,7 +51,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AoMFAwAIAUAhMACAAABAAUQCCAABEBQAEAAAAAMAAAA=</HashCode>
+      <HashCode>AoMFAwAIAUABMACAAADAAUQCCIABEhQAEAAAAAMAAAA=</HashCode>
       <FileName>TimeSheetEntry.aspx.cs</FileName>
     </TypeIdentifier>
   </Class>

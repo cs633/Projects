@@ -10,11 +10,13 @@
                 <tbody>
                 <tr>
                     <td>
-                        <h2>Select the date range to generate the performance report</h2>
+                        <h2>Select the project and date range to generate the performance report</h2>
                     </td>
                 </tr>
                 <tr>
                     <td>
+                        Project:&nbsp;&nbsp;
+                        <asp:DropDownList runat="server" ID="ddlProjects" ClientIDMode="Static"/>&nbsp;&nbsp;
                         Start:&nbsp;&nbsp;
                         <asp:TextBox runat="server" ID="txtStartDate" ClientIDMode="Static" Width="120px"/>&nbsp;
                         <a style="display:inline; position:absolute" onclick="showCalendarControl(txtStartDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
