@@ -51,7 +51,7 @@ namespace PMT
 
                 if (!string.IsNullOrEmpty(txtStartDate.Text) || !string.IsNullOrEmpty(txtFinishDate.Text))
                 {
-                    result = startDate < finishDate;
+                    result = (startDate == finishDate) || (startDate < finishDate);
                     if (!result)
                         throw new Exception("Start date must be earlier than finish date");
                 }

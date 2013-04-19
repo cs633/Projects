@@ -3,6 +3,26 @@
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+  <script type="text/javascript">
+      $(function () {
+          $("#txtStartDate").datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 3,
+              onClose: function (selectedDate) {
+                  $("#txtFinishDate").datepicker("option", "minDate", selectedDate);
+              }
+          });
+          $("#txtFinishDate").datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 3,
+              onClose: function (selectedDate) {
+                  $("#txtStartDate").datepicker("option", "maxDate", selectedDate);
+              }
+          });
+      });
+  </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Panel runat="server" ID="pnlQuery" ClientIDMode="Static">
@@ -19,10 +39,10 @@
                         <asp:DropDownList runat="server" ID="ddlProjects" ClientIDMode="Static"/>&nbsp;&nbsp;
                         Start:&nbsp;&nbsp;
                         <asp:TextBox runat="server" ID="txtStartDate" ClientIDMode="Static" Width="120px"/>&nbsp;
-                        <a style="display:inline; position:absolute" onclick="showCalendarControl(txtStartDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%--<a style="display:inline; position:absolute" onclick="showCalendarControl(txtStartDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                         Finish:&nbsp;&nbsp;
                         <asp:TextBox runat="server" ID="txtFinishDate" ClientIDMode="Static" Width="120px"/>&nbsp;
-                        <a style="display:inline; position:absolute" onclick="showCalendarControl(txtFinishDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%--<a style="display:inline; position:absolute" onclick="showCalendarControl(txtFinishDate)" href="#"><img alt="calendar" src="calendar.gif" style="width: 34px; height: 23px" border="0" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                         <asp:Button runat="server" ID="btnGo" Width="95px" Text="Go" OnClick="btnGo_Click" UseSubmitBehavior="true" />&nbsp;&nbsp;&nbsp;&nbsp;
                         <%--<asp:RequiredFieldValidator ControlToValidate="txtStartDate" runat="server" ID="rfvStartDate" Display="Dynamic" ErrorMessage="Start Date cannot be empty or null" ForeColor="Red" />--%>
                         <%--<asp:RequiredFieldValidator ControlToValidate="txtFinishDate" runat="server" ID="rfvFinishDate" Display="Dynamic" ErrorMessage="Finish Date cannot be empty or null" ForeColor="Red" />--%>

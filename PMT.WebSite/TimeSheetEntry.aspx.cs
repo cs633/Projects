@@ -21,7 +21,7 @@ namespace PMT
 
                 FillProjectsAndWorkCategories();
 
-                txtDate.Focus();
+                //txtDate.Focus();
 
                 PopulateHrs();
             }
@@ -56,7 +56,7 @@ namespace PMT
             LabelMessage.Text = string.Empty;
             ddlWorkCategory.SelectedIndex = 0;
             ddlProjects.SelectedIndex = 0;
-            txtDate.Focus();
+            //txtDate.Focus();
         }
 
         protected void ddlProjects_SelectedIndexChanged(object sender, EventArgs e)

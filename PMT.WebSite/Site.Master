@@ -6,8 +6,9 @@
 <head runat="server">
     <title>Performance Measure Tool</title>
     <link href="Site.css" rel="stylesheet" type="text/css" />
-    <link href="Calendar.css" rel="stylesheet" type="text/css" />
-    <script lang="javascript" src=Calendar.js type="text/javascript"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
